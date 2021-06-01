@@ -60,7 +60,15 @@ jobs:
 
       - name: Run pytest
         run: |
-          pytest --junitxml=pytest.xml
+          pytest --cov=resqpy --cov-report=xml --junitxml=pytest.xml --cov-report=term
+      
+      - name: Upload coverage to Codecov
+        # Only need one coverage report
+        if: matrix.python-version == '3.7'
+        # uses: codecov/codecov-action@v1
+        run: |
+          echo "**Preparing to upload**"
+          ls -r
 
       - name: Upload pytest artifacts
         if: ${{ always() }}
